@@ -26,16 +26,16 @@ jobs:
         run: uv sync --all-extras --dev --frozen
 
       - name: Check formatting with pyink
-        run: uv run pyink --check src tests
+        run: uv run pyink --check src test
 
       - name: Check import sorting with isort
-        run: uv run isort --check-only --diff src tests
+        run: uv run isort --check-only --diff src test
 
       - name: Lint with pylint
-        run: uv run pylint src tests
+        run: uv run pylint src test
 
       - name: Type check with mypy
-        run: uv run mypy src tests
+        run: uv run mypy src test
 
       - name: Run tests
         run: uv run pytest
