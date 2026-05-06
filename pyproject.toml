@@ -1,0 +1,43 @@
+[project]
+name = "unigrade"
+version = "0.1.0"
+description = "A CLI tool for tracking and analyzing university grades."
+readme = "README.md"
+authors = [
+    { name = "Matei Marin" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "rich>=15.0.0",
+    "typer>=0.25.1",
+]
+
+[project.scripts]
+grades = "unigrade.cli:app"
+
+[build-system]
+requires = ["uv_build>=0.8.0,<0.9"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "isort>=8.0.1",
+    "mypy>=1.20.2",
+    "pre-commit>=4.6.0",
+    "pyink>=25.12.0",
+    "pylint>=4.0.5",
+    "pytest>=9.0.3",
+]
+
+[tool.pyink]
+line-length = 80
+pyink-indentation = 4
+
+[tool.isort]
+profile = "black"
+line_length = 80
+src_paths = ["src", "tests"]
+known_first_party = ["unigrade"]
+
+[tool.pylint.format]
+max-line-length = 80
