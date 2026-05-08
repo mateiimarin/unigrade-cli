@@ -54,11 +54,9 @@ def init_db(db_path: str | None = None) -> None:
             """
             CREATE TABLE IF NOT EXISTS settings (
                 id INTEGER PRIMARY KEY CHECK (id = 1),
-                min_grade REAL NOT NULL,
-                max_grade REAL NOT NULL,
+                worst_grade REAL NOT NULL,
+                best_grade REAL NOT NULL,
                 pass_grade REAL NOT NULL,
-                higher_is_better INTEGER NOT NULL DEFAULT 1
-                    CHECK (higher_is_better IN (0, 1)),
                 degree_credits INTEGER NOT NULL
                     CHECK (degree_credits > 0)
             )

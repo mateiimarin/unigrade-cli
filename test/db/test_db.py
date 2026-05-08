@@ -62,10 +62,9 @@ def test_init_db_creates_tables(temp_db_path):
         settings_column_names = {col["name"] for col in settings_columns}
         assert {
             "id",
-            "min_grade",
-            "max_grade",
+            "worst_grade",
+            "best_grade",
             "pass_grade",
-            "higher_is_better",
             "degree_credits",
         }.issubset(settings_column_names)
 
