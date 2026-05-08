@@ -1,3 +1,5 @@
+"""Tests for the database utilities in unigrade.db."""
+
 import sqlite3
 from pathlib import Path
 
@@ -6,8 +8,8 @@ import pytest
 from unigrade.db import get_db, get_db_path, init_db
 
 
-@pytest.fixture
-def temp_db_path(tmp_path) -> str:
+@pytest.fixture(name="temp_db_path")
+def fixture_temp_db_path(tmp_path) -> str:
     return str(tmp_path / "test_unigrade.db")
 
 
@@ -74,7 +76,8 @@ def test_get_db_returns_valid_connection(temp_db_path):
 
         # Check if connection can execute a query
         conn.execute(
-            "INSERT INTO grades (grade, credits, course, semester) VALUES (?, ?, ?, ?)",
+            """INSERT INTO grades (grade, credits, course, semester)
+                VALUES (?, ?, ?, ?)""",
             (5.25, 7, "AlgDat", "HS24"),
         )
         row = conn.execute("SELECT * FROM grades").fetchone()

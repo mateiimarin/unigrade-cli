@@ -23,14 +23,14 @@ repos:
         entry: uv run pylint
         language: system
         types: [python]
-        files: ^(src|tests)/.*\.py$
+        files: ^(src|test)/.*\.py$
 
       - id: mypy
         name: mypy
         entry: uv run mypy
         language: system
         types: [python]
-        files: ^(src|tests)/.*\.py$
+        files: ^(src|test)/.*\.py$
 
       - id: pytest
         name: pytest
