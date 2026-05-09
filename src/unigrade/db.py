@@ -4,9 +4,9 @@ This module provides simple utilities to initialize and access the SQLite
 database used by the unigrade CLI.
 
 Functions
-    get_db_path: Return the filesystem path for the application's database.
-    init_db: Create the database and required tables if they do not exist.
-    get_db: Context manager that yields an open sqlite3.Connection.
+    get_path: Return the filesystem path for the application's database.
+    init: Create the database and required tables if they do not exist.
+    get: Context manager that yields an open sqlite3.Connection.
 """
 
 import sqlite3
@@ -19,22 +19,22 @@ APP_NAME = "unigrade"
 DB_NAME = "unigrade.db"
 
 
-def get_db_path() -> str:
+def get_path() -> str:
     app_data_dir = user_data_dir(APP_NAME, ensure_exists=True)
     return f"{app_data_dir}/{DB_NAME}"
 
 
-def init_db(db_path: str | None = None) -> None:
+def init(db_path: str | None = None) -> None:
     """Initializes the database with required tables.
 
     Creates the grades and settings tables if they don't already exist.
 
     Args:
         db_path: Optional path to the database file. If None, uses the default
-            database path from get_db_path().
+            database path from get_path().
     """
     if db_path is None:
-        db_path = get_db_path()
+        db_path = get_path()
 
     with sqlite3.connect(db_path) as conn:
         cursor = conn.cursor()
@@ -66,7 +66,7 @@ def init_db(db_path: str | None = None) -> None:
 
 
 @contextmanager
-def get_db(db_path: str | None = None) -> Iterator[sqlite3.Connection]:
+def get(db_path: str | None = None) -> Iterator[sqlite3.Connection]:
     """Provides an SQLite database connection.
 
     Ensures the database is initialized before opening a connection and closes
@@ -74,15 +74,15 @@ def get_db(db_path: str | None = None) -> Iterator[sqlite3.Connection]:
 
     Args:
         db_path: Optional path to the database file. If None, uses the default
-            database path from get_db_path().
+            database path from get_path().
 
     Yields:
         sqlite3.Connection: An open SQLite connection.
     """
     if db_path is None:
-        db_path = get_db_path()
+        db_path = get_path()
 
-    init_db(db_path)
+    init(db_path)
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row  # Allow accessing columns by name
 
