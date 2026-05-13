@@ -7,6 +7,8 @@ updates to those settings.
 
 from dataclasses import dataclass
 
+from unigrade.exceptions import ValidationError
+
 
 @dataclass(frozen=True)
 class GradingSettings:
@@ -35,11 +37,15 @@ class GradingSettings:
 
     def __validate(self) -> None:
         if self.worst_grade < 0:
-            raise ValueError("worst_grade must be non-negative.")
+            raise ValidationError(message="Worst grade must be non-negative.")
         if self.best_grade < 0:
-            raise ValueError("best_grade must be non-negative.")
+            raise ValidationError(message="Best grade must be non-negative.")
+        if self.pass_grade < 0:
+            raise ValidationError(message="Passing grade must be non-negative.")
         if self.degree_credits < 0:
-            raise ValueError("degree_credits must be non-negative.")
+            raise ValidationError(
+                message="Number of degree credits must be " "non-negative."
+            )
 
 
 @dataclass(frozen=True)
@@ -70,8 +76,12 @@ class GradingSettingsUpdate:
 
     def __validate(self) -> None:
         if self.worst_grade is not None and self.worst_grade < 0:
-            raise ValueError("worst_grade must be non-negative.")
+            raise ValidationError(message="Worst grade must be non-negative.")
         if self.best_grade is not None and self.best_grade < 0:
-            raise ValueError("best_grade must be non-negative.")
+            raise ValidationError(message="Best grade must be non-negative.")
+        if self.pass_grade is not None and self.pass_grade < 0:
+            raise ValidationError(message="Passing grade must be non-negative.")
         if self.degree_credits is not None and self.degree_credits < 0:
-            raise ValueError("degree_credits must be non-negative.")
+            raise ValidationError(
+                message="Number of degree credits must be " "non-negative."
+            )
