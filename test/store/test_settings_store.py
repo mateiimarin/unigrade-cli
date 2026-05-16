@@ -3,7 +3,7 @@
 import pytest
 
 from unigrade.models.settings import GradingSettings, GradingSettingsUpdate
-from unigrade.store import settings
+from unigrade.store import settings_store
 
 
 @pytest.fixture(name="sample_settings")
@@ -20,34 +20,34 @@ def fixture_sample_settings() -> list[GradingSettings]:
 
 
 def test_get_returns_none_when_no_settings():
-    assert settings.get() is None
+    assert settings_store.get() is None
 
 
 def test_save_and_get(sample_settings):
-    settings.save(sample_settings[0])
-    retrieved_settings = settings.get()
+    settings_store.save(sample_settings[0])
+    retrieved_settings = settings_store.get()
     assert retrieved_settings == sample_settings[0]
 
 
 def test_save_replaces_existing_settings(sample_settings):
-    settings.save(sample_settings[0])
-    settings.save(sample_settings[1])
+    settings_store.save(sample_settings[0])
+    settings_store.save(sample_settings[1])
 
-    retrieved_settings = settings.get()
+    retrieved_settings = settings_store.get()
     assert retrieved_settings == sample_settings[1]
 
 
 def test_update_modifies_fields(sample_settings):
     initial_settings = sample_settings[0]
-    settings.save(initial_settings)
+    settings_store.save(initial_settings)
 
     update_data = GradingSettingsUpdate(
         degree_credits=240, best_grade=10.0, pass_grade=6.0
     )
 
-    settings.update(update_data)
+    settings_store.update(update_data)
 
-    retrieved_settings = settings.get()
+    retrieved_settings = settings_store.get()
     assert retrieved_settings.best_grade == update_data.best_grade
     assert retrieved_settings.pass_grade == update_data.pass_grade
     assert retrieved_settings.degree_credits == update_data.degree_credits

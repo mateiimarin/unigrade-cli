@@ -9,7 +9,7 @@ from dataclasses import asdict
 from unigrade import db
 from unigrade.models.settings import GradingSettings, GradingSettingsUpdate
 
-SETTINGS_ENTRY_ID = 1
+SETTINGS_ENTRY_ID = 1  # Only one settings record, so we can use a fixed ID
 
 
 def save(settings: GradingSettings) -> None:
@@ -18,6 +18,7 @@ def save(settings: GradingSettings) -> None:
     Args:
         settings: A GradingSettings instance containing the values to persist.
     """
+
     data = asdict(settings)
     with db.get() as conn:
         cursor = conn.cursor()
